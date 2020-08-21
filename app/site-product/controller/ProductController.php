@@ -10,6 +10,7 @@ namespace SiteProduct\Controller;
 use SiteProduct\Library\Meta;
 use Product\Model\Product;
 use LibFormatter\Library\Formatter;
+use ProductLastSeen\Library\Seen;
 
 class ProductController extends \Site\Controller
 {
@@ -19,6 +20,9 @@ class ProductController extends \Site\Controller
         $product = Product::getOne(['slug'=>$slug, 'status'=>2]);
         if(!$product)
             return $this->show404();
+
+        if(module_exists('product-last-seen') && $this->user->isLogin())
+            Seen::add($this->user->id, $product->id);
 
         $product = Formatter::format('product', $product, ['user']);
 
