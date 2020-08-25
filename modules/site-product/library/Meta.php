@@ -120,7 +120,21 @@ class Meta
             'mpn'           => 'mim/product/'.$page->id,
             'aggregateRating' => $rate,
             'offers'        => $offers,
-            'review'        => []
+            'review'        => [
+            	[
+            		'@type' 	    => 'Review',
+            		'author' 	    => \Mim::$app->config->name,
+            		'datePublished' => $page->created->format('Y-m-d'),
+            		'description'   => 'No review for ' . $page->name,
+            		'name'          => 'Default Review',
+            		'reviewRating'  => [
+            			'@type' 		=> 'Rating',
+            			'bestRating'	=> '5',
+            			'ratingValue'	=> '5',
+            			'worstRating'	=> '1'
+            		]
+            	]
+            ]
         ];
 
         return $result;
